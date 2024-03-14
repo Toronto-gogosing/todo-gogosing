@@ -1,15 +1,22 @@
 # API
 
+## Benchmark
+Spring MVC 버젼과 Spring WebFlux 버젼을 만들어서 JMeter로 부하테스트 진행하기
+*Request*
+> GET POST /benchmark HTTP/2
+10000번 정도 loop을 도는 코드 적기
+
 ## 인증
 ### 로그인
 *Request*
-> HTTP POST /login
+> POST /login HTTP/2
 ```json
 {
     "id": "jerry901",
     "pw": "qwer1234"
 }
 ```
+
 *Response* 
 > 200 OK
 ```json
