@@ -95,28 +95,7 @@ Spring MVC 버젼과 Spring WebFlux 버젼을 만들어서 JMeter로 부하테�
 > Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 
 *Response*
-```json
-[
-    {
-        "date": "2024-01-24",
-        "todos": [
-            {
-                "datetime": "2024-01-24T05:00",
-                "description": "강아지 밥주기"
-            }
-        ]
-    },
-    {
-        "date": "2024-01-25",
-        "todos": [
-            {
-                "datetime": "2024-01-25T06:00",
-                "description": "강아지 놀아주기"
-            }
-        ]
-    }
-]
-```
+> 204 No Content
 
 ### 업데이트
 *Request*
