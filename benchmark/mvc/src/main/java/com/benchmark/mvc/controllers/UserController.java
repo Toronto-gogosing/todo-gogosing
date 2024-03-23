@@ -17,31 +17,31 @@ public class UserController {
     }
 
     // home
-    @GetMapping(path="/mvc")
+    @GetMapping(path="/")
     public String mvcHome() {
         return "Welcome to benchmarking MVC!";
     }
 
     // GET /mvc/users
-    @GetMapping(path="/mvc/users")
+    @GetMapping(path="/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // POST /mvc/users
-    @PostMapping(path="/mvc/users")
+    @PostMapping(path="/users")
     public void addUser(@RequestBody User user) {
         userRepository.save(user);
     }
 
     // GET /mvc/users/{id}
-    @GetMapping(path="/mvc/users/{id}")
+    @GetMapping(path="/users/{id}")
     public Optional<User> getUser(@PathVariable int id) {
         return userRepository.findById(id);
     }
 
     // DELETE /mvc/users/{id}
-    @DeleteMapping(path="/mvc/users/{id}")
+    @DeleteMapping(path="/users/{id}")
     public void deleteUser(@PathVariable int id) {
         userRepository.deleteById(id);
     }

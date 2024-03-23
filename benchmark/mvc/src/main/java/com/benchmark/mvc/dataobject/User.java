@@ -12,19 +12,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String userName;
-    private String userPassword;
-    @OneToOne
-    private TodoContainer todoContainer;
+    private String name;
 
     public User() {
     }
 
-    public User(int id, String userName, String userPassword, TodoContainer todoContainer) {
+    public User(int id, String name) {
         this.id = id;
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.todoContainer = todoContainer;
+        this.name = name;
     }
 
     public int getId() {
@@ -35,27 +30,11 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public TodoContainer getTodoContainer() {
-        return todoContainer;
-    }
-
-    public void setTodoContainer(TodoContainer todoContainer) {
-        this.todoContainer = todoContainer;
+    public void setName(String name) {
+        this.name = name;
     }
 }
