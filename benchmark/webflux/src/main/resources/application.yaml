@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: webflux
+  r2dbc:
+    url: r2dbc:mariadb://localhost:3306/benchmark?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 1234
