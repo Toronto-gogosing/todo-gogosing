@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: benchmark
+    ports:
+      - "3306:3306"
