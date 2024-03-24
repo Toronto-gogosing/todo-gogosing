@@ -1,9 +1,9 @@
 package com.benchmark.mvc.user;
 
-import com.benchmark.mvc.todo.Todo;
-import jakarta.persistence.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {
@@ -11,15 +11,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
-    private List<Todo> todoList;
+    private String name;
+    private String pw;
 
     public User() {
     }
 
-    public User(Long id, List<Todo> todoList) {
+    public User(Long id, String name, String pw) {
         this.id = id;
-        this.todoList = todoList;
+        this.name = name;
+        this.pw = pw;
     }
 
     public Long getId() {
@@ -30,11 +31,19 @@ public class User {
         this.id = id;
     }
 
-    public List<Todo> getTodoList() {
-        return todoList;
+    public String getName() {
+        return name;
     }
 
-    public void setTodoList(List<Todo> todoList) {
-        this.todoList = todoList;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
     }
 }
