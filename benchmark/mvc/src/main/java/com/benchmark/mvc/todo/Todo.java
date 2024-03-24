@@ -1,5 +1,6 @@
-package com.benchmark.mvc.dataobject;
+package com.benchmark.mvc.todo;
 
+import com.benchmark.mvc.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -9,27 +10,24 @@ public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private LocalDateTime dateTime;
     private String description;
-    @ManyToOne
-    private TodoByDate todoByDate;
 
     public Todo() {
     }
 
-    public Todo(int id, LocalDateTime dateTime, String description, TodoByDate todoByDate) {
+    public Todo(Long id, LocalDateTime dateTime, String description) {
         this.id = id;
         this.dateTime = dateTime;
         this.description = description;
-        this.todoByDate = todoByDate;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,13 +45,5 @@ public class Todo {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public TodoByDate getTodoByDate() {
-        return todoByDate;
-    }
-
-    public void setTodoByDate(TodoByDate todoByDate) {
-        this.todoByDate = todoByDate;
     }
 }
