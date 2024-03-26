@@ -1,7 +1,5 @@
-package com.benchmark.mvc.controllers;
+package com.benchmark.mvc.user;
 
-import com.benchmark.mvc.repository.UserRepository;
-import com.benchmark.mvc.dataobject.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,13 +34,13 @@ public class UserController {
 
     // GET /mvc/users/{id}
     @GetMapping(path="/users/{id}")
-    public Optional<User> getUser(@PathVariable int id) {
+    public Optional<User> getUser(@PathVariable long id) {
         return userRepository.findById(id);
     }
 
     // DELETE /mvc/users/{id}
     @DeleteMapping(path="/users/{id}")
-    public void deleteUser(@PathVariable int id) {
+    public void deleteUser(@PathVariable long id) {
         userRepository.deleteById(id);
     }
 }
