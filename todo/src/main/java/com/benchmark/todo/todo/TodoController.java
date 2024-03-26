@@ -1,22 +1,18 @@
 package com.benchmark.todo.todo;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
+@RequiredArgsConstructor
 public class TodoController {
-
-    private TodoService todoService;
-
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
-    }
+    private final TodoService todoService;
 
     // Get all todos
     @GetMapping(path="/todos")
@@ -26,45 +22,34 @@ public class TodoController {
 
     // Create a to-do
     @PostMapping(path="/todos")
-    public Todo postTodo(@RequestBody Todo todo) {
-        return todoService.createTodo(todo);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void postTodo(@RequestBody TodoDTO.CreateRequest dto) {
+        todoService.createTodo(dto);
     }
 
     // Get to-do by date
     @GetMapping(path="/todos/{date}")
-    public ResponseEntity<List<Todo>> getTodoByDate(@PathVariable LocalDate date) {
-        List<Todo> todoList = todoService.findTodoByDate(date);
-
-        if (todoList.isEmpty()) {
-            return new ResponseEntity<>(todoList, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(todoList, HttpStatus.CREATED);
+    public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(todoService.findTodoByDate(date));
     }
 
     // Delete to-do by id
-    @DeleteMapping(path="/todos/{id}")
-    public ResponseEntity<?> deleteTodo(@PathVariable long id) {
-        Optional<Todo> todoOfId = todoService.getTodoById(id);
-
-        if (todoOfId.isPresent()) {
-            todoService.deleteTodoById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+//    @DeleteMapping(path="/todos/{id}")
+//    public void deleteTodo(@PathVariable long id) {
+//        Optional<Todo> todoOfId = todoService.getTodoById(id);
+//
+//        if (todoOfId.isPresent()) {
+//            todoService.deleteTodoById(id);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//    }
 
     // Update to-do by id
-    @PutMapping(path="/todos/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable long id, @RequestBody Todo todo) {
-        Optional<Todo> todoOfId = todoService.getTodoById(id);
-
-        if (todoOfId.isPresent()) {
-            todo.setId(id);
-            todoService.createTodo(todo);
-            return new ResponseEntity<>(todoOfId.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(todoOfId.get(), HttpStatus.BAD_REQUEST);
-    }
+//    @PutMapping(path="/todos/{id}")
+//    public ResponseEntity<Todo> updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest dto) {
+//        return new ResponseEntity<>(todoService.updateTodo(id, dto));
+//    }
 
     // Get calendar dates
     @GetMapping(path="/calendars/{month}")
