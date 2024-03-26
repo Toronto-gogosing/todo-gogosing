@@ -1,29 +1,33 @@
 package com.benchmark.todo.todo;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
 
-    private TodoRepository todoRepository;
-
-    public TodoService(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
-    }
+    private final TodoRepository todoRepository;
 
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
     }
 
-    public Todo createTodo(Todo todo) {
-        return todoRepository.save(todo);
+    public void updateTodo(long id, TodoDTO.UpdateRequest dto) {
+        Todo todo = todoRepository.findById(id).orElseThrow(IllegalStateException::new);
+        todoRepository.save(todo);
+        // 204 No content
+        // 201 Created
     }
 
-    public Optional<Todo> getTodoById(long id) {
-        return todoRepository.findById(id);
+
+    public void createTodo(TodoDTO.CreateRequest dto) {
+        todoRepository.save(dto.toEntity());
     }
 
     public List<LocalDate> getCalenderDates(int month) {
@@ -47,14 +51,12 @@ public class TodoService {
         todoRepository.deleteById(id);
     }
 
-    public List<Todo> findTodoByDate(LocalDate date) {
-        List<Todo> todoList = new ArrayList<>(
-                todoRepository.findAll()
-                .stream()
-                .filter(todo -> todo.getDateTime().toLocalDate().equals(date))
-                .toList());
+    public List<TodoDTO.Detail> findTodoByDate(LocalDate date) {
+        List<Todo> todos = todoRepository.findAll();
 
-        todoList.sort((t1, t2) -> t1.getDateTime().compareTo(t2.getDateTime()));
-        return todoList;
+        return todos.stream()
+                .filter(todo -> todo.getDateTime().toLocalDate().equals(date))
+                .map(TodoDTO.Detail::of)
+                .toList();
     }
 }

@@ -16,8 +16,7 @@ public class Todo {
     public Todo() {
     }
 
-    public Todo(Long id, LocalDateTime dateTime, String description) {
-        this.id = id;
+    public Todo(LocalDateTime dateTime, String description) {
         this.dateTime = dateTime;
         this.description = description;
     }
