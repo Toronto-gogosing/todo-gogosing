@@ -20,29 +20,30 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final TokenProvider accessTokenProvider;
 
-    @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain chain
-    ) throws ServletException, IOException {
-        String token = resolveToken(request);
-        if (token != null) {
-            Authentication authentication = accessTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+  private final TokenProvider accessTokenProvider;
 
-        chain.doFilter(request, response);
+  @Override
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain chain
+  ) throws ServletException, IOException {
+    String token = resolveToken(request);
+    if (token != null) {
+      SecurityContextHolder.getContext()
+          .setAuthentication(accessTokenProvider.loadAuthentication(token));
     }
 
-    private String resolveToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (!StringUtils.hasText(authorizationHeader)) {
-            return null;
-        }
+    chain.doFilter(request, response);
+  }
 
-        return authorizationHeader.substring(7);
+  private String resolveToken(HttpServletRequest request) {
+    String authorizationHeader = request.getHeader("Authorization");
+    if (!StringUtils.hasText(authorizationHeader)) {
+      return null;
     }
+
+    return authorizationHeader.substring(7);
+  }
 }

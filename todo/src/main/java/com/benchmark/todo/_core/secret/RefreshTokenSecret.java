@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 public class RefreshTokenSecret implements TokenSecret {
-    private String signingKey = "K+4cNzTdJhnrqFdX8HYO3SuF4LhuuSHSaAGykFBnyuE=";
-    private Integer duration = 7200;
+
+  private String signingKey = "34db70810ae7c49abc39d53cefbf84ba";
+  private Integer duration = 7200;
 }

@@ -11,14 +11,17 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 // Ref: https://docs.spring.io/spring-security/reference/servlet/authentication/preauth.html#_http403forbiddenentrypoint
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private final HandlerExceptionResolver resolver;
 
-    public CustomAuthenticationEntryPoint(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
-        this.resolver = resolver;
-    }
+  private final HandlerExceptionResolver resolver;
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        this.resolver.resolveException(request, response, null, authException);
-    }
+  public CustomAuthenticationEntryPoint(
+      @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+    this.resolver = resolver;
+  }
+
+  @Override
+  public void commence(HttpServletRequest request, HttpServletResponse response,
+      AuthenticationException authException) {
+    this.resolver.resolveException(request, response, null, authException);
+  }
 }

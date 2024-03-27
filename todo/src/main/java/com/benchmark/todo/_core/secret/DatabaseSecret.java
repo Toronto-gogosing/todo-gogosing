@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 public class DatabaseSecret {
-    private String url = "jdbc:mariadb://localhost:3306/todo";
-    private String username = "root";
-    private String password = "1234";
+
+  private String url = "jdbc:mariadb://localhost:3306/todo";
+  private String username = "root";
+  private String password = "1234";
 }

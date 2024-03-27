@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CommonException extends RuntimeException {
-    private final ErrorCode errorCode;
 
-    public static CommonException of(ErrorCode errorCode) {
-        return new CommonException(errorCode);
-    }
+  private final ErrorCode errorCode;
+
+  public static CommonException of(ErrorCode errorCode) {
+    return new CommonException(errorCode);
+  }
 }
