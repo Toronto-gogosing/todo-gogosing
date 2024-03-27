@@ -30,15 +30,9 @@ public abstract class TokenProvider {
                 .compact();
     }
 
+    // TODO: Implement this method(Jerry)
     public String validate(User user) {
-        TokenSecret secret = getSecret();
-        Date now = new Date();
-        return Jwts.builder()
-                .subject(user.getUsername())
-                .issuedAt(now)
-                .expiration(new Date(now.getTime() + secret.getDuration() * 1000L))
-                .signWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes()))
-                .compact();
+        return null;
     }
 
     public Authentication getAuthentication(String token) {
