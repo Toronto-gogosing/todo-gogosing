@@ -1,6 +1,5 @@
 package com.benchmark.todo._core.error;
 
-import com.benchmark.todo.user.entity.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
