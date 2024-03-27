@@ -1,9 +1,15 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/benchmark
+    url: jdbc:mariadb://localhost:3306/todo
     username: root
     password: 1234
   jpa:
+    # Why should 'spring.jpa.open-in-view' attribute be set to false?
+    # Ref: https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
+    open-in-view: false
     hibernate:
-      ddl-auto:
-        update
+      ddl-auto: none
+
+server:
+  error:
+    include-stacktrace: never

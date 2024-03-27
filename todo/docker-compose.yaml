@@ -5,6 +5,8 @@ services:
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: benchmark
+      MYSQL_DATABASE: todo
     ports:
       - "3306:3306"
+    volumes:
+      - "./database/migration:/docker-entrypoint-initdb.d"
