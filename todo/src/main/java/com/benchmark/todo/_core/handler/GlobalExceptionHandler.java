@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorDTO> handleAuthenticationException(AuthenticationException e) {
+    public ResponseEntity<ErrorDTO> handleAuthenticationException() {
         ErrorCode errorCode = ErrorCode.FORBIDDEN;
         return ResponseEntity.status(errorCode.getStatus()).body(errorCode.toErrorDTO());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorDTO> handleAccessDeniedException(AccessDeniedException e) {
+    public ResponseEntity<ErrorDTO> handleAccessDeniedException() {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         return ResponseEntity.status(errorCode.getStatus()).body(errorCode.toErrorDTO());
     }
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO> handleUnknownException(Exception e) {
+    public ResponseEntity<ErrorDTO> handleUnknownException() {
         ErrorCode errorCode = ErrorCode.SERVER_ERROR;
         return ResponseEntity.status(errorCode.getStatus()).body(errorCode.toErrorDTO());
     }

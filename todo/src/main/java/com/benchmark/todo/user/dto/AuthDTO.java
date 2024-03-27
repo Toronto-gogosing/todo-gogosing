@@ -1,6 +1,5 @@
 package com.benchmark.todo.user.dto;
 
-import com.benchmark.todo.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,15 +18,6 @@ public class AuthDTO {
         private String username;
         private String password;
         private String name;
-
-        public User toEntity() {
-            return User.builder()
-                    .username(username)
-                    .password(password)
-                    .name(name)
-                    .build();
-        }
-
     }
 
     @Getter
