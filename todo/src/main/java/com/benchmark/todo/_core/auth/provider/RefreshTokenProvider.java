@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RefreshTokenProvider extends TokenProvider{
-    private final TokenSecret refreshTokenSecret;
-    private final UserDetailsService userDetailsService;
+public class RefreshTokenProvider extends TokenProvider {
 
-    @Override
-    protected TokenSecret getSecret() {
-        return refreshTokenSecret;
-    }
+  private final TokenSecret refreshTokenSecret;
+  private final UserDetailsService userDetailsService;
 
-    @Override
-    protected UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
+  @Override
+  protected TokenSecret getSecret() {
+    return refreshTokenSecret;
+  }
+
+  @Override
+  protected UserDetailsService getUserDetailsService() {
+    return userDetailsService;
+  }
 }

@@ -20,38 +20,39 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final AccessDeniedHandler customAccessDeniedHandler;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .headers((config) -> config.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable);
+  private final AuthenticationEntryPoint customAuthenticationEntryPoint;
+  private final AccessDeniedHandler customAccessDeniedHandler;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-        http.authorizeHttpRequests((config) -> config
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
+        .headers((config) -> config.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+        .httpBasic(AbstractHttpConfigurer::disable)
+        .formLogin(AbstractHttpConfigurer::disable);
+
+    http.authorizeHttpRequests((config) -> config
+        .requestMatchers("/auth/**").permitAll()
+        .anyRequest().authenticated()
+    );
+
+    // Ref: https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html#stateless-authentication
+    http.sessionManagement((session) ->
+        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    );
+
+    http.addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
+        .exceptionHandling((config) ->
+            config.authenticationEntryPoint(customAuthenticationEntryPoint)
+                .accessDeniedHandler(customAccessDeniedHandler)
         );
 
-        // Ref: https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html#stateless-authentication
-        http.sessionManagement((session) ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+    return http.build();
+  }
 
-        http.addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
-                .exceptionHandling((config) ->
-                        config.authenticationEntryPoint(customAuthenticationEntryPoint)
-                                .accessDeniedHandler(customAccessDeniedHandler)
-                );
-
-        return http.build();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  @Bean
+  public static PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 }

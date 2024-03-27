@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public UserDTO.Slim fetchUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() ->
-                CommonException.of(ErrorCode.NOT_FOUND)
-        );
+  public UserDTO.Slim fetchUser(Long id) {
+    User user = userRepository.findById(id).orElseThrow(() ->
+        CommonException.of(ErrorCode.NOT_FOUND)
+    );
 
-        return UserDTO.Slim.of(user);
-    }
+    return UserDTO.Slim.of(user);
+  }
 }

@@ -8,18 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AccessTokenProvider extends TokenProvider {
-    private final TokenSecret accessTokenSecret;
-    private final UserDetailsService userDetailsService;
 
-    @Override
-    protected TokenSecret getSecret() {
-        return accessTokenSecret;
-    }
+  private final TokenSecret accessTokenSecret;
+  private final UserDetailsService userDetailsService;
 
-    @Override
-    protected UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
+  @Override
+  protected TokenSecret getSecret() {
+    return accessTokenSecret;
+  }
+
+  @Override
+  protected UserDetailsService getUserDetailsService() {
+    return userDetailsService;
+  }
 
 //    public AccessTokenProvider(String secret, Integer duration, UserDetailsService userDetailsService) {
 //        this.secret = secret;

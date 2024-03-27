@@ -13,17 +13,19 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorDTO {
-    private final String code;
-    private final String message;
-    private final LocalDateTime timestamp = LocalDateTime.now();
-    @Builder.Default
-    private final List<FieldError> fieldErrors = new ArrayList<>();
 
-    @Builder
-    @AllArgsConstructor
-    public static class FieldError {
-        private String field;
-        private String reason;
-        private String value;
-    }
+  private final String code;
+  private final String message;
+  private final LocalDateTime timestamp = LocalDateTime.now();
+  @Builder.Default
+  private final List<FieldError> fieldErrors = new ArrayList<>();
+
+  @Builder
+  @AllArgsConstructor
+  public static class FieldError {
+
+    private String field;
+    private String reason;
+    private String value;
+  }
 }

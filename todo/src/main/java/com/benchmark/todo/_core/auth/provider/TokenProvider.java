@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,40 +19,48 @@ import java.util.Date;
 // Ref: https://github.com/jwtk/jjwt
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public abstract class TokenProvider {
-    public String create(User user) {
-        TokenSecret secret = getSecret();
-        Date now = new Date();
-        return Jwts.builder()
-                .subject(user.getId().toString())
-                .claim("username", user.getUsername())
-                .issuedAt(now)
-                .expiration(new Date(now.getTime() + secret.getDuration() * 1000L))
-                .signWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes()))
-                .compact();
+
+  public String create(User user) {
+    TokenSecret secret = getSecret();
+    Date now = new Date();
+    return Jwts.builder()
+        .subject(user.getId().toString())
+        .claim("username", user.getUsername())
+        .issuedAt(now)
+        .expiration(new Date(now.getTime() + secret.getDuration() * 1000L))
+        .signWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes()))
+        .compact();
+  }
+
+  // TODO: Implement this method(Jerry)
+  public Jws<Claims> parse(String token) {
+    try {
+      TokenSecret secret = getSecret();
+      return Jwts.parser()
+          .verifyWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes()))
+          .build()
+          .parseSignedClaims(token);
+    } catch (Exception e) {
+      throw new AccessDeniedException("filed to validate the token");
     }
+  }
 
-    // TODO: Implement this method(Jerry)
-    public String validate(User user) {
-        return null;
+  public Authentication loadAuthentication(String token) {
+    try {
+      TokenSecret secret = getSecret();
+      Jws<Claims> claims = Jwts.parser()
+          .verifyWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes())).build()
+          .parseSignedClaims(token);
+
+      UserDetails userDetails = getUserDetailsService().loadUserByUsername(
+          claims.getPayload().getSubject());
+      return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    } catch (Exception e) {
+      return null;
     }
+  }
 
-    public Authentication getAuthentication(String token) {
-        try {
-            TokenSecret secret = getSecret();
-            Jws<Claims> claims = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secret.getSigningKey().getBytes()))
-                    .build()
-                    .parseSignedClaims(token);
+  protected abstract TokenSecret getSecret();
 
-            UserDetails userDetails = getUserDetailsService()
-                    .loadUserByUsername(claims.getPayload().getSubject());
-            return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-        } catch (Exception e) {
-            return new UsernamePasswordAuthenticationToken(null, null);
-        }
-    }
-
-    protected abstract TokenSecret getSecret();
-    protected abstract UserDetailsService getUserDetailsService();
-
+  protected abstract UserDetailsService getUserDetailsService();
 }

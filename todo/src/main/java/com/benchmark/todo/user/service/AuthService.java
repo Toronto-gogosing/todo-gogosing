@@ -13,32 +13,33 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository userRepository;
-    private final TokenProvider accessTokenProvider;
-    private final TokenProvider refreshTokenProvider;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthDTO.SessionToken createJsonWebTokens(AuthDTO.SignInRequest dto) {
-        User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() -> CommonException.of(ErrorCode.BAD_REQUEST));
+  private final UserRepository userRepository;
+  private final TokenProvider accessTokenProvider;
+  private final TokenProvider refreshTokenProvider;
+  private final PasswordEncoder passwordEncoder;
 
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw CommonException.of(ErrorCode.BAD_REQUEST);
-        }
+  public AuthDTO.SessionToken createJsonWebTokens(AuthDTO.SignInRequest dto) {
+    User user = userRepository.findByUsername(dto.getUsername())
+        .orElseThrow(() -> CommonException.of(ErrorCode.BAD_REQUEST));
 
-        return AuthDTO.SessionToken.builder()
-                .accessToken(accessTokenProvider.create(user))
-                .refreshToken(refreshTokenProvider.create(user))
-                .build();
+    if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+      throw CommonException.of(ErrorCode.BAD_REQUEST);
     }
 
-    public void registerNewUser(AuthDTO.SignUpRequest dto) {
-        User user = User.builder()
-                .username(dto.getUsername())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .name(dto.getName())
-                .build();
+    return AuthDTO.SessionToken.builder()
+        .accessToken(accessTokenProvider.create(user))
+        .refreshToken(refreshTokenProvider.create(user))
+        .build();
+  }
 
-        userRepository.save(user);
-    }
+  public void registerNewUser(AuthDTO.SignUpRequest dto) {
+    User user = User.builder()
+        .username(dto.getUsername())
+        .password(passwordEncoder.encode(dto.getPassword()))
+        .name(dto.getName())
+        .build();
+
+    userRepository.save(user);
+  }
 }
