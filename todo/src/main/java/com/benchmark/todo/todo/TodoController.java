@@ -1,59 +1,61 @@
 package com.benchmark.todo.todo;
 
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequiredArgsConstructor
 public class TodoController {
-    private final TodoService todoService;
 
-    // Get all todos
-    @GetMapping(path="/todos")
-    public List<Todo> getAllTodos() {
-        return todoService.getAllTodos();
-    }
+  private final TodoService todoService;
 
-    // Create a to-do
-    @PostMapping(path="/todos")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void postTodo(@RequestBody TodoDTO.CreateRequest dto) {
-        todoService.createTodo(dto);
-    }
+  // Get all todos
+  @GetMapping(path = "/todos")
+  public List<Todo> getAllTodos() {
+    return todoService.getAllTodos();
+  }
 
-    // Get to-do by date
-    @GetMapping(path="/todos/{date}")
-    public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
-        return ResponseEntity.ok(todoService.findTodoByDate(date));
-    }
+  // Create a to-do
+  @PostMapping(path = "/todos")
+  @ResponseStatus(HttpStatus.CREATED)
+  public void postTodo(@RequestBody TodoDTO.CreateRequest dto) {
+    todoService.createTodo(dto);
+  }
 
-    // Delete to-do by id
-//    @DeleteMapping(path="/todos/{id}")
-//    public void deleteTodo(@PathVariable long id) {
-//        Optional<Todo> todoOfId = todoService.getTodoById(id);
-//
-//        if (todoOfId.isPresent()) {
-//            todoService.deleteTodoById(id);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+  // Get to-do by date
+  @GetMapping(path = "/todos/{date}")
+  public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
+    return ResponseEntity.ok(todoService.findTodoByDate(date));
+  }
 
-    // Update to-do by id
-//    @PutMapping(path="/todos/{id}")
-//    public ResponseEntity<Todo> updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest dto) {
-//        return new ResponseEntity<>(todoService.updateTodo(id, dto));
-//    }
+  // Update to-do by id
+  @PatchMapping(path = "/todos/{id}")
+  public void updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest dto) {
+    todoService.updateTodo(id, dto);
+  }
 
-    // Get calendar dates
-    @GetMapping(path="/calendars/{month}")
-    public List<LocalDate> getTodosInMonth(@PathVariable int month) {
-        return todoService.getCalenderDates(month);
-    }
+  // Delete to-do by id
+  @DeleteMapping(path = "/todos/{id}")
+  public void deleteTodo(@PathVariable long id) {
+    todoService.deleteTodo(id);
+  }
+
+  // Get calendar dates
+  @GetMapping(path = "/calendars/{month}")
+  public List<LocalDate> getTodosInMonth(@PathVariable int month) {
+    return todoService.getCalenderDates(month);
+  }
 }

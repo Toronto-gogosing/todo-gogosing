@@ -4,6 +4,7 @@ import com.benchmark.todo._core.error.CommonException;
 import com.benchmark.todo._core.error.ErrorCode;
 import com.benchmark.todo._core.error.ErrorDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +32,12 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorDTO> handleCommonException(CommonException e) {
     return ResponseEntity.status(e.getErrorCode().getStatus())
         .body(e.getErrorCode().toErrorDTO());
+  }
+
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<ErrorDTO> handleDataIntegrityViolationException() {
+    ErrorCode errorCode = ErrorCode.CONFLICT;
+    return ResponseEntity.status(errorCode.getStatus()).body(errorCode.toErrorDTO());
   }
 
   @ExceptionHandler(Exception.class)

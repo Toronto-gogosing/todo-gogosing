@@ -21,6 +21,5 @@ public class UserDTO {
           .name(user.getName())
           .build();
     }
-
   }
 }
