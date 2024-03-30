@@ -21,4 +21,11 @@ public class UserService {
 
     return UserDTO.Slim.of(user);
   }
+
+  public User fetchUser(String username) {
+    User user = userRepository.findByUsername(username).orElseThrow(() ->
+        CommonException.of(ErrorCode.NOT_FOUND));
+
+    return user;
+  }
 }

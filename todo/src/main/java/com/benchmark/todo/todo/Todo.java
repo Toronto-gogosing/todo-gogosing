@@ -1,27 +1,28 @@
 package com.benchmark.todo.todo;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Todo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDateTime dateTime;
-    private String description;
-
-    public Todo() {
-    }
-
-    public Todo(LocalDateTime dateTime, String description) {
-        this.dateTime = dateTime;
-        this.description = description;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private final Long id = null;
+  private LocalDateTime dueDate;
+  private String description;
 }
