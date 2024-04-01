@@ -1,6 +1,6 @@
 package com.benchmark.todo._core.config;
 
-import com.benchmark.todo.user.argumentresolver.CurrentUserArgumentResolver;
+import com.benchmark.todo._core.auth.argumentresolver.CurrentUserArgumentResolver;
 import com.benchmark.todo.user.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.benchmark.todo.user.argumentresolver;
+package com.benchmark.todo._core.auth.argumentresolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
