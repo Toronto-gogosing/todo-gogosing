@@ -40,8 +40,8 @@ public class TodoDTO {
     String description;
   }
 
-  // 단건 조회
-  // todos/{id}
+  // looking up full details
+  @Getter
   @Builder
   public static class Detail {
 
@@ -52,6 +52,22 @@ public class TodoDTO {
     public static Detail of(Todo todo) {
       return Detail.builder()
           .id(todo.getId())
+          .datetime(todo.getDueDate())
+          .description(todo.getDescription())
+          .build();
+    }
+  }
+
+  // /todos, /todos/{id}
+  @Getter
+  @Builder
+  public static class Slim {
+
+    LocalDateTime datetime;
+    String description;
+
+    public static Slim of(Todo todo) {
+      return Slim.builder()
           .datetime(todo.getDueDate())
           .description(todo.getDescription())
           .build();

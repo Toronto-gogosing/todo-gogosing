@@ -15,18 +15,33 @@ public class TodoService {
 
   private final TodoRepository todoRepository;
 
-  public List<Todo> getAllTodos() {
-    return todoRepository.findAll();
+  public Todo getTodoById(long id) {
+    // TODO: fix the exception
+    return todoRepository.findById(id).orElseThrow(IllegalStateException::new);
   }
 
-  public void createTodo(TodoDTO.CreateRequest dto) {
-    todoRepository.save(dto.toEntity());
+  public TodoDTO.Slim getTodoSlimById(long id) {
+    Todo todo = getTodoById(id);
+    return TodoDTO.Slim.of(todo);
   }
 
-  public void updateTodo(long id, TodoDTO.UpdateRequest dto) {
-    Todo todo = todoRepository.findById(id).orElseThrow(IllegalStateException::new);
-    todo.setDueDate(dto.getDueDate());
-    todo.setDescription(dto.getDescription());
+  public List<TodoDTO.Slim> getAllTodoSlims() {
+    List<Todo> todoList = todoRepository.findAll();
+
+    return todoList
+        .stream()
+        .map(todo -> TodoDTO.Slim.of(todo))
+        .toList();
+  }
+
+  public void createTodo(TodoDTO.CreateRequest createDto) {
+    todoRepository.save(createDto.toEntity());
+  }
+
+  public void updateTodo(long id, TodoDTO.UpdateRequest updateDto) {
+    Todo todo = getTodoById(id);
+    todo.setDueDate(updateDto.getDueDate());
+    todo.setDescription(updateDto.getDescription());
     todoRepository.save(todo);
   }
 

@@ -24,33 +24,39 @@ public class TodoController {
 
   // Get all todos
   @GetMapping(path = "/todos")
-  public List<Todo> getAllTodos() {
-    return todoService.getAllTodos();
+  public List<TodoDTO.Slim> getAllTodoSlims() {
+    return todoService.getAllTodoSlims();
   }
 
   // Create a to-do
   @PostMapping(path = "/todos")
   @ResponseStatus(HttpStatus.CREATED)
-  public void postTodo(@RequestBody TodoDTO.CreateRequest dto) {
-    todoService.createTodo(dto);
+  public void postTodo(@RequestBody TodoDTO.CreateRequest CreateDto) {
+    todoService.createTodo(CreateDto);
   }
 
-  // Get to-do by date
-  @GetMapping(path = "/todos/{date}")
-  public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
-    return ResponseEntity.ok(todoService.findTodoByDate(date));
+  // Get to-do by id
+  @GetMapping(path = "/todos/{id}")
+  public TodoDTO.Slim getTodoSlimById(@PathVariable long id) {
+    return todoService.getTodoSlimById(id);
   }
 
   // Update to-do by id
   @PatchMapping(path = "/todos/{id}")
-  public void updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest dto) {
-    todoService.updateTodo(id, dto);
+  public void updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest updateDto) {
+    todoService.updateTodo(id, updateDto);
   }
 
   // Delete to-do by id
   @DeleteMapping(path = "/todos/{id}")
   public void deleteTodo(@PathVariable long id) {
     todoService.deleteTodo(id);
+  }
+
+  // Get to-do by date
+  @GetMapping(path = "/calendars/{date}")
+  public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
+    return ResponseEntity.ok(todoService.findTodoByDate(date));
   }
 
   // Get calendar dates
