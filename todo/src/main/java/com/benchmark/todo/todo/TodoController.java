@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,44 +17,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/todos")
 public class TodoController {
 
   private final TodoService todoService;
 
   // Get all todos
-  @GetMapping(path = "/todos")
+  // TODO: don't use same method names. Change later (fetch, read, load -> service)
+  @GetMapping(path = "")
   public List<TodoDTO.Slim> getAllTodoSlims() {
     return todoService.getAllTodoSlims();
   }
 
   // Create a to-do
-  @PostMapping(path = "/todos")
+  @PostMapping(path = "")
   @ResponseStatus(HttpStatus.CREATED)
   public void postTodo(@RequestBody TodoDTO.CreateRequest CreateDto) {
     todoService.createTodo(CreateDto);
   }
 
   // Get to-do by id
-  @GetMapping(path = "/todos/{id}")
+  // TODO: combine @CurrentUser
+  @GetMapping(path = "/{id}")
   public TodoDTO.Slim getTodoSlimById(@PathVariable long id) {
     return todoService.getTodoSlimById(id);
+  }
 
   // Update to-do by id
-  @PatchMapping(path = "/todos/{id}")
+  @PatchMapping(path = "/{id}")
   public void updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest updateDto) {
     todoService.updateTodo(id, updateDto);
   }
 
   // Delete to-do by id
-  @DeleteMapping(path = "/todos/{id}")
+  @DeleteMapping(path = "/{id}")
   public void deleteTodo(@PathVariable long id) {
     todoService.deleteTodo(id);
   }
 
   // Get to-do by date
   @GetMapping(path = "/calendars/{date}")
-  public ResponseEntity<List<TodoDTO.Detail>> getTodoByDate(@PathVariable LocalDate date) {
-    return ResponseEntity.ok(todoService.findTodoByDate(date));
+  public List<TodoDTO.Slim> getTodoByDate(@PathVariable LocalDate date) {
+    return todoService.findTodoByDate(date);
   }
 
   // Get calendar dates

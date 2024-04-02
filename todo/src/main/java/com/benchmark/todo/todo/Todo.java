@@ -25,4 +25,6 @@ public class Todo {
   private final Long id = null;
   private LocalDateTime dueDate;
   private String description;
+
+  // TODO: add user id, without @ManiToOne
 }
