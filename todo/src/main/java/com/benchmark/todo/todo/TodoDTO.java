@@ -67,7 +67,7 @@ public class TodoDTO {
     String description;
 
     public static Slim of(Todo todo) {
-      return Slim.builder()
+      return Slim.builder()  
           .datetime(todo.getDueDate())
           .description(todo.getDescription())
           .build();

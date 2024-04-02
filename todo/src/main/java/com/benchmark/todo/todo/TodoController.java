@@ -39,7 +39,6 @@ public class TodoController {
   @GetMapping(path = "/todos/{id}")
   public TodoDTO.Slim getTodoSlimById(@PathVariable long id) {
     return todoService.getTodoSlimById(id);
-  }
 
   // Update to-do by id
   @PatchMapping(path = "/todos/{id}")

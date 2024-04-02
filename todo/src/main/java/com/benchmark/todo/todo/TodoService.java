@@ -1,5 +1,8 @@
 package com.benchmark.todo.todo;
 
+import com.benchmark.todo._core.error.CommonException;
+import com.benchmark.todo._core.error.ErrorCode;
+import com.benchmark.todo.todo.TodoDTO.Slim;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +18,7 @@ public class TodoService {
 
   private final TodoRepository todoRepository;
 
+  // TODO: delete this code
   public Todo getTodoById(long id) {
     // TODO: fix the exception
     return todoRepository.findById(id).orElseThrow(IllegalStateException::new);
@@ -30,7 +34,7 @@ public class TodoService {
 
     return todoList
         .stream()
-        .map(todo -> TodoDTO.Slim.of(todo))
+        .map(Slim::of)
         .toList();
   }
 
@@ -39,12 +43,17 @@ public class TodoService {
   }
 
   public void updateTodo(long id, TodoDTO.UpdateRequest updateDto) {
-    Todo todo = getTodoById(id);
+
+    Todo todo = todoRepository.findById(id).orElseThrow(() ->
+        new CommonException(ErrorCode.NOT_FOUND));
+
+//    Todo todo = getTodoById(id);
     todo.setDueDate(updateDto.getDueDate());
     todo.setDescription(updateDto.getDescription());
     todoRepository.save(todo);
   }
 
+  // TODO: use custom query
   public List<LocalDate> getCalenderDates(int month) {
     Set<LocalDate> dates = new HashSet<>();
     List<Todo> todoList = new ArrayList<>(
@@ -66,12 +75,12 @@ public class TodoService {
     todoRepository.deleteById(id);
   }
 
-  public List<TodoDTO.Detail> findTodoByDate(LocalDate date) {
+  public List<TodoDTO.Slim> findTodoByDate(LocalDate date) {
     List<Todo> todos = todoRepository.findAll();
 
     return todos.stream()
         .filter(todo -> todo.getDueDate().toLocalDate().equals(date))
-        .map(TodoDTO.Detail::of)
+        .map(TodoDTO.Slim::of)
         .toList();
   }
 }
