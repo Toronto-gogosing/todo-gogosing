@@ -1,6 +1,6 @@
 package com.benchmark.todo.user.controller;
 
-import com.benchmark.todo.user.argumentresolver.CurrentUser;
+import com.benchmark.todo._core.auth.argumentresolver.CurrentUser;
 import com.benchmark.todo.user.dto.UserDTO;
 import com.benchmark.todo.user.entity.User;
 import com.benchmark.todo.user.service.UserService;
