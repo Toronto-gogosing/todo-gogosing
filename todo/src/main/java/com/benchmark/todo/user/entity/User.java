@@ -2,6 +2,7 @@ package com.benchmark.todo.user.entity;
 
 import com.benchmark.todo.todo.Todo;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,8 +31,10 @@ public class User implements UserDetails {
   @Column(name = "name")
   private String name;
 
+  // TODO: How do we load this when needed?
+  // TODO: How does this get updated when new Todo is created?
   @OneToMany
-  private List<Todo> todoList;
+  private final List<Todo> todoList = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,7 +68,6 @@ public class User implements UserDetails {
         ", username='" + username + '\'' +
         ", password='" + password + '\'' +
         ", name='" + name + '\'' +
-        ", todoList=" + todoList +
         '}';
   }
 }

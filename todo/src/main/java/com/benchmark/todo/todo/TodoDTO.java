@@ -22,10 +22,11 @@ public class TodoDTO {
     @Length(max = 50)
     String description;
 
-    public Todo toEntity() {
+    public Todo toEntity(long userId) {
       return Todo.builder()
           .dueDate(dueDate)
           .description(description)
+          .userId(userId)
           .build();
     }
   }

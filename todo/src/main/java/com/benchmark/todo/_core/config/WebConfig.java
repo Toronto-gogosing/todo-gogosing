@@ -13,11 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-  @Autowired
-  UserService userService;
-
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(new CurrentUserArgumentResolver(userService));
+    argumentResolvers.add(new CurrentUserArgumentResolver());
   }
 }

@@ -1,7 +1,6 @@
 package com.benchmark.todo._core.auth.argumentresolver;
 
 import com.benchmark.todo.user.entity.User;
-import com.benchmark.todo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -15,8 +14,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 @Component
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
-
-  private final UserService userService;
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {

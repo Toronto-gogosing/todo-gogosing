@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,11 @@ public class Todo {
   private final Long id = null;
   private LocalDateTime dueDate;
   private String description;
+  @JoinColumn(name = "userId")
+  private long userId;
 
-  // TODO: add user id, without @ManiToOne
+  // TODO: consider adding "owned-by method" to verify ownership.
+  public boolean isOwnedBy(long id) {
+    return this.userId == id;
+  }
 }

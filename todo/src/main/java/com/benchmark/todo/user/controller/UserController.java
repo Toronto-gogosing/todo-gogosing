@@ -5,7 +5,6 @@ import com.benchmark.todo.user.dto.UserDTO;
 import com.benchmark.todo.user.entity.User;
 import com.benchmark.todo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +18,6 @@ public class UserController {
 
   @GetMapping("/me")
   public UserDTO.Slim getMyInfo(@CurrentUser User user) {
-    return userService.fetchUser(user.getId());
+    return userService.fetchUserByUsername(user.getId());
   }
 }

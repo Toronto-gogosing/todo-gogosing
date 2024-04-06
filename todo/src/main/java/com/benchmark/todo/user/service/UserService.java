@@ -14,18 +14,11 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-  public UserDTO.Slim fetchUser(Long id) {
+  public UserDTO.Slim fetchUserByUsername(Long id) {
     User user = userRepository.findById(id).orElseThrow(() ->
         CommonException.of(ErrorCode.NOT_FOUND)
     );
 
     return UserDTO.Slim.of(user);
-  }
-
-  public User fetchUser(String username) {
-    User user = userRepository.findByUsername(username).orElseThrow(() ->
-        CommonException.of(ErrorCode.NOT_FOUND));
-
-    return user;
   }
 }
