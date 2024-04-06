@@ -65,16 +65,14 @@ public class TodoController {
   }
 
   // Get to-do by date
-  //TODO: ambiguous handler methods
-  @GetMapping(path = "/calendars/{date}")
-  public List<TodoDTO.Slim> getTodoByDate(@CurrentUser User user, @PathVariable LocalDate date) {
+  @GetMapping(path = "/calendar-date/{date}")
+  public List<TodoDTO.Slim> getTodoByDate(@CurrentUser User user, @PathVariable("date") LocalDate date) {
     return todoService.fetchTodoByDate(user, date);
   }
 
-  // Get calendar dates
-  // TODO: ambiguous handler methods
-  @GetMapping(path = "/calendars/{month}")
-  public List<LocalDate> getTodosInMonth(@CurrentUser User user, @PathVariable int month) {
-    return todoService.fetchCalenderDates(month);
+  // Get calendar dates of a month
+  @GetMapping(path = "/calendar-month/{date}")
+  public List<Integer> getTodosInMonth(@CurrentUser User user, @PathVariable("date") LocalDate date) {
+    return todoService.fetchCalenderDates(user, date);
   }
 }
