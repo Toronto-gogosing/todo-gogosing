@@ -13,5 +13,7 @@ CREATE TABLE IF NOT EXISTS todo.todo
     `id`       BIGINT AUTO_INCREMENT NOT NULL,
     `due_date` DATETIME NOT NULL,
     `description` VARCHAR(500) NOT NULL,
-    PRIMARY KEY (id)
+    `user_id` BIGINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES todo.user(id)
 );

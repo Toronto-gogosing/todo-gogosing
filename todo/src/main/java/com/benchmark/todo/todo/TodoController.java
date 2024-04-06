@@ -1,5 +1,7 @@
 package com.benchmark.todo.todo;
 
+import com.benchmark.todo._core.auth.argumentresolver.CurrentUser;
+import com.benchmark.todo.user.entity.User;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,50 +24,57 @@ public class TodoController {
 
   private final TodoService todoService;
 
-  // github ssh key added
-
   // Get all todos
-  // TODO: don't use same method names. Change later (fetch, read, load -> service)
+  // just for testing
+  @GetMapping(path = "/all")
+  public List<Todo> getAll() {
+    return todoService.fetchAll();
+  }
+
+  // Get all todos of user
   @GetMapping(path = "")
-  public List<TodoDTO.Slim> getAllTodoSlims() {
-    return todoService.getAllTodoSlims();
+  public List<TodoDTO.Slim> getAllTodoSlims(@CurrentUser User user) {
+    return todoService.fetchAllTodoSlims(user);
   }
 
   // Create a to-do
   @PostMapping(path = "")
   @ResponseStatus(HttpStatus.CREATED)
-  public void postTodo(@RequestBody TodoDTO.CreateRequest CreateDto) {
-    todoService.createTodo(CreateDto);
+  public void postTodo(@CurrentUser User user, @RequestBody TodoDTO.CreateRequest CreateDto) {
+    todoService.createTodo(user, CreateDto);
   }
 
   // Get to-do by id
-  // TODO: combine @CurrentUser
+  // Todo: verify that to-do belongs to the user
   @GetMapping(path = "/{id}")
-  public TodoDTO.Slim getTodoSlimById(@PathVariable long id) {
-    return todoService.getTodoSlimById(id);
+  public TodoDTO.Slim getTodoSlimById(@CurrentUser User user, @PathVariable long id) {
+    return todoService.fetchTodoSlimById(user, id);
   }
 
   // Update to-do by id
   @PatchMapping(path = "/{id}")
-  public void updateTodo(@PathVariable long id, @RequestBody TodoDTO.UpdateRequest updateDto) {
-    todoService.updateTodo(id, updateDto);
+  public void updateTodo(@CurrentUser User user, @PathVariable long id,
+      @RequestBody TodoDTO.UpdateRequest updateDto) {
+    todoService.updateTodo(user, id, updateDto);
   }
 
   // Delete to-do by id
   @DeleteMapping(path = "/{id}")
-  public void deleteTodo(@PathVariable long id) {
-    todoService.deleteTodo(id);
+  public void deleteTodo(@CurrentUser User user, @PathVariable long id) {
+    todoService.deleteTodo(user, id);
   }
 
   // Get to-do by date
+  //TODO: ambiguous handler methods
   @GetMapping(path = "/calendars/{date}")
-  public List<TodoDTO.Slim> getTodoByDate(@PathVariable LocalDate date) {
-    return todoService.findTodoByDate(date);
+  public List<TodoDTO.Slim> getTodoByDate(@CurrentUser User user, @PathVariable LocalDate date) {
+    return todoService.fetchTodoByDate(user, date);
   }
 
   // Get calendar dates
+  // TODO: ambiguous handler methods
   @GetMapping(path = "/calendars/{month}")
-  public List<LocalDate> getTodosInMonth(@PathVariable int month) {
-    return todoService.getCalenderDates(month);
+  public List<LocalDate> getTodosInMonth(@CurrentUser User user, @PathVariable int month) {
+    return todoService.fetchCalenderDates(month);
   }
 }
