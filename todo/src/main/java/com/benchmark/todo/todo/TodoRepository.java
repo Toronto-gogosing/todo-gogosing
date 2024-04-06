@@ -9,8 +9,10 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
   List<Todo> findAllByUserId(long userId);
 
-  // TODO: look up date format for query
-  // LocalDateTime due_date -> 2025-01
-//  @Query("SELECT DISTINCT DAY(due_date) FROM todo WHERE due_date LIKE 'month%' ORDER BY DAY(due_date)")
-//  List<Integer> findDatesPresent(@Param("month") String month);
+  @Query(value = "SELECT * FROM todo.todo WHERE user_id = :userId "
+      + "AND YEAR(due_date) = :year AND MONTH(due_date) = :month AND DAY(due_date) = :day ORDER BY due_date", nativeQuery = true)
+  List<Todo> findAllByDate(@Param("userId") long userId, @Param("year") int year, @Param("month") int month, @Param("day") int day);
+
+  @Query(value = "SELECT DISTINCT DAY(due_date) FROM todo.todo WHERE user_id = :userId AND YEAR(due_date) = :year AND MONTH(due_date) = :month ORDER BY DAY(due_date)", nativeQuery = true)
+  List<Integer> findDatesPresent(@Param("userId") long userId, @Param("year") int year, @Param("month") int month);
 }

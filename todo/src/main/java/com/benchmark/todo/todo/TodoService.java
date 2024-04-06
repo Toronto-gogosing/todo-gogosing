@@ -62,24 +62,6 @@ public class TodoService {
     todoRepository.save(todo);
   }
 
-  // TODO: use custom query
-  public List<LocalDate> fetchCalenderDates(int month) {
-    Set<LocalDate> dates = new HashSet<>();
-    List<Todo> todoList = new ArrayList<>(
-        todoRepository.findAll()
-            .stream()
-            .filter(todo -> todo.getDueDate().getMonthValue() == month)
-            .toList());
-
-    for (Todo todo : todoList) {
-      dates.add(todo.getDueDate().toLocalDate());
-    }
-
-    List<LocalDate> dateList = new ArrayList<>(dates);
-    dateList.sort(LocalDate::compareTo);
-    return dateList;
-  }
-
   public void deleteTodo(User user, long id) {
     Todo todo = todoRepository.findById(id).orElseThrow(() ->
         new CommonException(ErrorCode.NOT_FOUND));
@@ -91,11 +73,15 @@ public class TodoService {
   }
 
   public List<TodoDTO.Slim> fetchTodoByDate(User user, LocalDate date) {
-    List<Todo> todos = todoRepository.findAllByUserId(user.getId());
+
+    List<Todo> todos = todoRepository.findAllByDate(user.getId(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
 
     return todos.stream()
-        .filter(todo -> todo.getDueDate().toLocalDate().equals(date))
         .map(TodoDTO.Slim::of)
         .toList();
+  }
+
+  public List<Integer> fetchCalenderDates(User user, LocalDate date) {
+    return todoRepository.findDatesPresent(user.getId(), date.getYear(), date.getMonthValue());
   }
 }

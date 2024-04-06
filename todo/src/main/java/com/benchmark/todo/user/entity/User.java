@@ -33,6 +33,7 @@ public class User implements UserDetails {
 
   // TODO: How do we load this when needed?
   // TODO: How does this get updated when new Todo is created?
+  // Ask what @OneToMany does exactly
   @OneToMany
   private final List<Todo> todoList = new ArrayList<>();
 

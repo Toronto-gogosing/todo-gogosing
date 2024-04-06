@@ -10,8 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 public class TodoDTO {
 
-  // This part should be just about the data object.
-  // Shouldn't converting part be in Service?
   @Getter
   @AllArgsConstructor
   @NoArgsConstructor
