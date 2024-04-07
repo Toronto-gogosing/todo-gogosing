@@ -1,5 +1,6 @@
 package com.benchmark.todo.todo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,10 +27,11 @@ public class Todo {
   private final Long id = null;
   private LocalDateTime dueDate;
   private String description;
-  @JoinColumn(name = "userId")
-  private long userId;
+  @Column(name = "user_id")
+  private Long userId;
 
   // TODO: consider adding "owned-by method" to verify ownership.
+  // Take User user instead, and check inside.
   public boolean isOwnedBy(long id) {
     return this.userId == id;
   }
