@@ -66,13 +66,13 @@ public class TodoController {
 
   // Get to-do by date
   @GetMapping(path = "/calendar-date/{date}")
-  public List<TodoDTO.Slim> getTodoByDate(@CurrentUser User user, @PathVariable("date") LocalDate date) {
+  public List<TodoDTO.Slim> getTodoByDate(@CurrentUser User user, @PathVariable("date") String date) {
     return todoService.fetchTodoByDate(user, date);
   }
 
   // Get calendar dates of a month
   @GetMapping(path = "/calendar-month/{date}")
-  public List<Integer> getTodosInMonth(@CurrentUser User user, @PathVariable("date") LocalDate date) {
+  public List<String> getTodosInMonth(@CurrentUser User user, @PathVariable("date") String date) {
     return todoService.fetchCalenderDates(user, date);
   }
 }
