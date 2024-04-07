@@ -72,16 +72,16 @@ public class TodoService {
     todoRepository.deleteById(id);
   }
 
-  public List<TodoDTO.Slim> fetchTodoByDate(User user, LocalDate date) {
+  public List<TodoDTO.Slim> fetchTodoByDate(User user, String date) {
 
-    List<Todo> todos = todoRepository.findAllByDate(user.getId(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+    List<Todo> todos = todoRepository.findAllByDate(user.getId(), date);
 
     return todos.stream()
         .map(TodoDTO.Slim::of)
         .toList();
   }
 
-  public List<Integer> fetchCalenderDates(User user, LocalDate date) {
-    return todoRepository.findDatesPresent(user.getId(), date.getYear(), date.getMonthValue());
+  public List<String> fetchCalenderDates(User user, String date) {
+    return todoRepository.findDatesPresent(user.getId(), date);
   }
 }
