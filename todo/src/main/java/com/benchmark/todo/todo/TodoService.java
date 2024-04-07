@@ -4,11 +4,7 @@ import com.benchmark.todo._core.error.CommonException;
 import com.benchmark.todo._core.error.ErrorCode;
 import com.benchmark.todo.todo.TodoDTO.Slim;
 import com.benchmark.todo.user.entity.User;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +23,6 @@ public class TodoService {
     Todo todo = todoRepository.findById(id).orElseThrow(() ->
         new CommonException(ErrorCode.NOT_FOUND));
 
-    // Is this right way of checking ownership?
     if (!todo.isOwnedBy(user.getId())) {
       throw new CommonException(ErrorCode.UNAUTHORIZED);
     }
@@ -66,6 +61,7 @@ public class TodoService {
     Todo todo = todoRepository.findById(id).orElseThrow(() ->
         new CommonException(ErrorCode.NOT_FOUND));
 
+    // Instead of user.getId(), just send User
     if (!todo.isOwnedBy(user.getId())) {
       throw new CommonException(ErrorCode.UNAUTHORIZED);
     }
@@ -81,7 +77,7 @@ public class TodoService {
         .toList();
   }
 
-  public List<String> fetchCalenderDates(User user, String date) {
+  public List<Integer> fetchCalenderDates(User user, String date) {
     return todoRepository.findDatesPresent(user.getId(), date);
   }
 }

@@ -72,7 +72,7 @@ public class TodoController {
 
   // Get calendar dates of a month
   @GetMapping(path = "/calendar-month/{date}")
-  public List<String> getTodosInMonth(@CurrentUser User user, @PathVariable("date") String date) {
+  public List<Integer> getTodosInMonth(@CurrentUser User user, @PathVariable("date") String date) {
     return todoService.fetchCalenderDates(user, date);
   }
 }

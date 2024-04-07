@@ -33,8 +33,11 @@ public class User implements UserDetails {
 
   // TODO: How do we load this when needed?
   // TODO: How does this get updated when new Todo is created?
-  // Ask what @OneToMany does exactly
+
+  // One to many joincolumn -> left join when queried
+  // This might not be necessary to have for User. We could query this directly from database through repository.
   @OneToMany
+  @JoinColumn(name="user_id")
   private final List<Todo> todoList = new ArrayList<>();
 
   @Override
